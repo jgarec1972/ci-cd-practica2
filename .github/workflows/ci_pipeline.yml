@@ -1,0 +1,38 @@
+# .github/workflows/ci_pipeline.yml
+# Flujo de CI/CD que corre con cada cambio en la rama principal.
+
+name: 🧑‍💻 Quality Gate y Despliegue
+
+on:
+  push:
+    branches: [ main ]
+
+jobs:
+  build_test_deploy:
+    runs-on: ubuntu-latest
+    
+    steps:
+    
+    # PASO 1: Descarga el código
+    - name: 📥 Clonar Repositorio
+      uses: actions/checkout@v4
+      
+    # PASO 2: Configura Python
+    - name: 🐍 Configurar Python
+      uses: actions/setup-python@v5
+      with:
+        python-version: '3.10'
+        
+    # PASO 3: Quality Gate (Ejecuta las pruebas de 'calculadora.py')
+    - name: 🚦 Quality Gate: Ejecutar Pruebas
+      run: python calculadora.py
+
+    # PASO 4: Simulación de Despliegue (SOLO si el Quality Gate pasó)
+    - name: 🚀 Simulación de Despliegue (CD)
+      if: success()
+      run: |
+        echo "=========================================================="
+        echo "✅ Quality Gate Aprobado. Iniciando Despliegue."
+        echo "🎉 El código pasa a producción."
+        echo "=========================================================="
+
