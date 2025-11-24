@@ -1,41 +1,5 @@
- # 1. EVENTO DE EJECUCIÓN: ¿Cuándo debe correr este flujo?
-on:
-  push:
-    branches: [ main ] # Se ejecuta automáticamente cuando se sube código a la rama 'main'
-
-# 2. DEFINICIÓN DE TRABAJOS (JOBS)
-jobs:
-  build_test_deploy:
-    # Este trabajo corre en un entorno de Ubuntu reciente
-    runs-on: ubuntu-latest
-    
-    steps:
-    
-    # --- PASO 1: CONFIGURACIÓN E INTEGRACIÓN CONTINUA (CI) ---
-    - name: 📥 Clonar el Código
-      uses: actions/checkout@v4
-      # Baja el código del repositorio al servidor de GitHub Actions
-      
-    - name: 🐍 Configurar Entorno Python
-      uses: actions/setup-python@v5
-      with:
-        python-version: '3.10'
-        
-    - name: 🚦 Quality Gate (Pruebas Unitarias)
-      # Ejecuta el script de la calculadora, el cual contiene la función test_suite()
-      run: python calculadora.py
-      # **CRUCIAL:** Si 'calculadora.py' termina con un error (código 1), este paso FALLA 
-      # y el pipeline se detiene automáticamente.
-
-    # --- PASO 2: DESPLIEGUE CONTINUO (CD) ---
-    - name: 🚀 Simulación de Despliegue (CD)
-      # Esta condición asegura que el paso SOLO corra si los pasos anteriores fueron exitosos.
-      if: success()
-      run: |
-        echo "=========================================================="
-        echo "✅ Código certificado por el Quality Gate."
-        echo "Iniciando Despliegue Continuo..."
-        echo "Desplegando la versión V1.0 a un servidor simulado."
-        echo "🎉 Despliegue COMPLETADO. El código está en producción."
-        echo "=========================================================="
-
+- name: 🚦 Quality Gate (Pruebas Unitarias)
+  # Cambio temporal para ver si encuentra el archivo
+  run: |
+    ls -la
+    python calculadora.py
